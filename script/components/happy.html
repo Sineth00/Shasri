@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday ❤️</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial;
+  text-align: center;
+  background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+  color: white;
+  overflow: hidden;
+}
+
+/* CENTER */
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* BUTTON */
+button {
+  padding: 15px 25px;
+  font-size: 18px;
+  border-radius: 25px;
+  border: none;
+  background: white;
+  color: #ff4b5c;
+  cursor: pointer;
+}
+
+/* 🎂 CAKE */
+.cake {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  margin-top: 20px;
+  transform: rotateX(20deg);
+  animation: pop 1.5s ease;
+}
+
+/* layers */
+.layer {
+  position: absolute;
+  width: 200px;
+  height: 60px;
+  border-radius: 10px;
+}
+
+.layer1 { top: 80px; background: #ff6b81; }
+.layer2 { top: 40px; background: #ff4757; }
+.layer3 { top: 0; background: #ff6b81; }
+
+/* candle */
+.candle {
+  position: absolute;
+  top: -40px;
+  left: 90px;
+  width: 20px;
+  height: 40px;
+  background: white;
+  border-radius: 5px;
+}
+
+/* flame */
+.flame {
+  position: absolute;
+  top: -20px;
+  left: 5px;
+  width: 10px;
+  height: 20px;
+  background: orange;
+  border-radius: 50%;
+  animation: flicker 0.3s infinite alternate;
+}
+
+/* animations */
+@keyframes flicker {
+  from { transform: scale(1); opacity: 1; }
+  to { transform: scale(1.2); opacity: 0.7; }
+}
+
+@keyframes pop {
+  from { transform: scale(0); }
+  to { transform: scale(1) rotateX(20deg); }
+}
+
+/* SLIDESHOW */
+.slideshow {
+  width: 250px;
+  height: 300px;
+  margin-top: 20px;
+  position: relative;
+  border-radius: 15px;
+  overflow: hidden;
+}
+
+.slide {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: 1s;
+}
+
+.active { opacity: 1; }
+
+/* HEARTS */
+.heart {
+  position: absolute;
+  color: red;
+  animation: float 5s linear infinite;
+}
+
+@keyframes float {
+  from { transform: translateY(0); }
+  to { transform: translateY(-100vh); }
+}
+</style>
+</head>
+
+<body>
+
+<audio id="music" loop>
+  <source src="song.mp3">
+</audio>
+
+<div id="main" class="container">
+  <h1>Happy Birthday ❤️</h1>
+  <button onclick="start()">Click Me 🎁</button>
+</div>
+
+<script>
+function start() {
+  document.getElementById("music").play();
+
+  document.getElementById("main").innerHTML = `
+    <div class="container">
+      <h1>For You 💖</h1>
+
+      <div class="cake">
+        <div class="layer layer1"></div>
+        <div class="layer layer2"></div>
+        <div class="layer layer3"></div>
+
+        <div class="candle">
+          <div class="flame"></div>
+        </div>
+      </div>
+
+      <div class="slideshow">
+        <img src="1.jpg" class="slide active">
+        <img src="2.jpg" class="slide">
+        <img src="3.jpg" class="slide">
+      </div>
+
+      <p id="text"></p>
+    </div>
+  `;
+
+  typeWriter("Happy Birthday My Love ❤️\nYou are my everything 💕", "text", 50);
+  slideshow();
+}
+
+/* typewriter */
+function typeWriter(text, id, speed) {
+  let i = 0;
+  let el = document.getElementById(id);
+  el.innerHTML = "";
+
+  function t() {
+    if (i < text.length) {
+      el.innerHTML += text.charAt(i);
+      i++;
+      setTimeout(t, speed);
+    }
+  }
+  t();
+}
+
+/* slideshow */
+function slideshow() {
+  let slides = document.querySelectorAll(".slide");
+  let i = 0;
+
+  setInterval(() => {
+    slides[i].classList.remove("active");
+    i = (i + 1) % slides.length;
+    slides[i].classList.add("active");
+  }, 3000);
+}
+
+/* hearts */
+setInterval(() => {
+  let h = document.createElement("div");
+  h.className = "heart";
+  h.innerHTML = "❤️";
+  h.style.left = Math.random() * 100 + "vw";
+  document.body.appendChild(h);
+
+  setTimeout(() => h.remove(), 5000);
+}, 300);
+</script>
+
+</body>
+</html>
